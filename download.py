@@ -16,14 +16,27 @@ class Logger(object):
         print(msg)
 
 def download_captions(code):
-    # code = "oaA5N6Wso_o"
+    code = "oaA5N6Wso_o"
     try:
         transcript_list = YouTubeTranscriptApi.list_transcripts(code)
         print(transcript_list)
         srt = YouTubeTranscriptApi.get_transcript(code, languages=['zh-Hans'])
         print(srt)
+        sentences = []
+        for x in srt:
+            sentences.append(x['text'])
+
+        f = open("/Users/mac/Desktop/repos/temp-YT-CI/text_files/" + code +".txt", "w")
+        for sentence in sentences:
+            for x in sentence.split():
+                f.write(x)
+        f.close()
+                
+
     except:
         download_wav(code)
+    
+
 
 def download_wav(code):
     
@@ -66,7 +79,7 @@ def recognize(file_path):
         f.close()
 
 if __name__ == "__main__":
-    # download_captions("ChCJmbW2d_8")
-    recognize('/Users/mac/Desktop/repos/temp-YT-CI/')
+    download_captions("ChCJmbW2d_8")
+    # recognize('/Users/mac/Desktop/repos/temp-YT-CI/')
     # download_wav("oaA5N6Wso_o")
 
